@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  practica25:
+    image: ${DOCKER_REGISTRY-}practica25
+    build:
+      context: .
+      dockerfile: Practica25/Practica25/Dockerfile
+    ports:
+      - "5050:8080"
+    depends_on:
+      - sql-server-db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+
+  sql-server-db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: "sql-Practica25"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=265139Dn#$ # IMPORTANT: Change this to a secure password
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssqldata:/var/opt/mssql
+
+volumes:
+  mssqldata:
