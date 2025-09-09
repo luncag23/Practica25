@@ -1,9 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿	<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	  <PropertyGroup>
+	    <TargetFramework>net9.0</TargetFramework>
+	    <ImplicitUsings>enable</ImplicitUsings>
+	    <Nullable>enable</Nullable>
+	  </PropertyGroup>
 
-</Project>
+	  <ItemGroup>
+	    <ProjectReference Include="..\Practica25.Domain\Practica25.Domain.csproj" />
+	    <ProjectReference Include="..\Practica25.Infrastructure\Practica25.Infrastructure.csproj" />
+	    <ProjectReference Include="..\Practica25.Shared\Practica25.Shared.csproj" />
+	  </ItemGroup>
+
+	</Project>
