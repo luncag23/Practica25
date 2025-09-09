@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Practica25.Data;
+using Practica25.Infrastructure.Data;
 
 namespace Practica25.Components.Account
 {

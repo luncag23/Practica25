@@ -7,6 +7,10 @@
 	  </PropertyGroup>
 
 	  <ItemGroup>
+	    <PackageReference Include="MediatR" Version="13.0.0" />
+	  </ItemGroup>
+
+	  <ItemGroup>
 	    <ProjectReference Include="..\Practica25.Domain\Practica25.Domain.csproj" />
 	    <ProjectReference Include="..\Practica25.Infrastructure\Practica25.Infrastructure.csproj" />
 	    <ProjectReference Include="..\Practica25.Shared\Practica25.Shared.csproj" />

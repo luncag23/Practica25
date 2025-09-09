@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Practica25.Components.Account.Pages;
 using Practica25.Components.Account.Pages.Manage;
-using Practica25.Data;
+using Practica25.Infrastructure.Data;
 
 namespace Microsoft.AspNetCore.Routing
 {

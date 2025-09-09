@@ -1,0 +1,69 @@
+﻿@page "/products"
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Products</PageTitle>
+
+<h3>Products</h3>
+
+
+
+@code {
+     private List<Practica25.Shared.DTOs.ProductDTO>? products;
+     private Practica25.Shared.DTOs.ProductDTO productToEdit = new() { Name = "", Description = "", Price = 0 };
+     private bool isEditing = false;
+
+     protected override async Task OnInitializedAsync()
+     {
+          await LoadProducts();
+     }
+
+     private async Task LoadProducts()
+     {
+          products = await Http.GetFromJsonAsync<List<Practica25.Shared.DTOs.ProductDTO>>("api/products");
+     }
+
+     private void SelectProductForEdit(Practica25.Shared.DTOs.ProductDTO product)
+     {
+          productToEdit = new Practica25.Shared.DTOs.ProductDTO
+          {
+               Id = product.Id,
+               Name = product.Name,
+               Description = product.Description,
+               Price = product.Price
+          };
+          isEditing = true;
+     }
+
+     private async Task SaveProduct()
+     {
+          if (isEditing)
+          {
+               await Http.PutAsJsonAsync($"api/products/{productToEdit.Id}", productToEdit);
+          }
+          else
+          {
+               await Http.PostAsJsonAsync("api/products", productToEdit);
+          }
+
+          await LoadProducts();
+          CancelEdit();
+     }
+
+     private async Task DeleteProduct(int id)
+     {
+          bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this product?");
+          if (confirmed)
+          {
+               await Http.DeleteAsync($"api/products/{id}");
+               await LoadProducts();
+          }
+     }
+
+     private void CancelEdit()
+     {
+          productToEdit = new() { Name = "", Description = "", Price = 0 };
+          isEditing = false;
+     }
+}
