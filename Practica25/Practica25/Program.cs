@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using Practica25.Client.Pages;
 using Practica25.Components;
 using Practica25.Components.Account;
-using Practica25.Domain; // Use Domain for the User class
 using Practica25.Infrastructure.Data; // Use Infrastructure for the DbContext
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,11 +44,21 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddTransient<IEmailSender<ApplicationUser>, SendGridEmailSender>();
+
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+     var sender = scope.ServiceProvider.GetRequiredService<IEmailSender<ApplicationUser>>();
+     var testUser = new ApplicationUser { UserName = "testuser" };
+
+     await sender.SendConfirmationLinkAsync(testUser, "adresa-ta@gmail.com", "https://localhost:5050/test-confirm");
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
